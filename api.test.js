@@ -2,7 +2,9 @@
 import supertest from "supertest";
 import { getApp } from "./until/getApp";
 import { postSignIn } from "./Auth/authEndPoin";
-import randomEmail from "./until/DefaultResources"
+import {randomEmail, randomName, defaultPhone, agent, RANDOM_SOURCE, NAMB_NUMBER} from "./until/DefaultResources";
+import {createUserData} from "./data/createUserData";
+import {postUserRegistration} from "./registration/registrationEndpoint"
 const request = supertest(getApp())
 
 
@@ -68,9 +70,13 @@ describe('API Test', () => {
   })
 
   describe("Register",() => {
-    // it('efe', () => {
-    //   console.log(randomEmail)
-    // })
+    it('agent', async() => {
+      const body = createUserData(randomName, randomEmail, defaultPhone, agent, RANDOM_SOURCE, NAMB_NUMBER)
+
+      const agentResponse = await postUserRegistration(body);
+      console.log(agentResponse)
+      expect(agentResponse.status).toBe(200);
+    })
   })
 
 
